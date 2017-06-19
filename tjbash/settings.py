@@ -26,7 +26,7 @@ SECRET_KEY = 'lylkgf$qmw=&)04!yk5fyvoo3zm%00hwva_k_56n69(4$i+qd0'
 #DEBUG = os.getenv("DEBUG", False) == "TRUE"
 DEBUG = True
 
-ALLOWED_HOSTS = ["tjbash.herokuapp.com", ."0.0.0.0", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["tjbash.herokuapp.com", "0.0.0.0", "127.0.0.1", "localhost"]
 
 
 # Application definition
