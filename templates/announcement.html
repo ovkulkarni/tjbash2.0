@@ -1,0 +1,9 @@
+<div class="card-panel">
+    <span class="black-text">{{ announcement.content }}</span>
+    <br />
+    <span class="grey-text">{{ announcement.creation_time }}</span>
+    <br />
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <a href="{% url 'edit_announcement' announcement.id %}">Edit</a>
+    {% endif %}
+</div>

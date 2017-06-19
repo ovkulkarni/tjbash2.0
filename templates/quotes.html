@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section">
+    <div class="row">
+        <div class="col s12 center-align">
+            {% if quotes.has_previous %}
+            <a href="?page={{ quotes.previous_page_number }}"><i class="material-icons">skip previous</i></a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}
+            </span>
+
+            {% if quotes.has_next %}
+            <a href="?page={{ quotes.next_page_number }}"><i class="material-icons">skip next</i></a>
+            {% endif %}
+        </div>
+    </div>
+    {% for quote in quotes %}
+    {% if not forloop.counter|divisibleby:2 %}
+    <div class="row">
+    {% endif %}
+        <div class="col l6 s12">
+            {% include "quote.html" with quote=quote %}
+        </div>
+    {% if forloop.counter|divisibleby:2 %}
+    </div>
+    {% endif %}
+    {% empty %}
+    <h5>There are no quotes at this time</h5>
+    {% endfor %}
+</div>
+{% endblock %}

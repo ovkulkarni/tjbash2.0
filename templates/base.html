@@ -1,0 +1,98 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>TJ Bash 2.0</title>
+
+        <!-- CSS  -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css" media="screen,projection">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.css" />
+        <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    </head>
+    <body>
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" href="{% url 'index' %}" class="brand-logo">TJ Bash 2.0</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="{% url 'new_quote' %}">New Quote</a></li>
+                    <li><a href="{% url 'all_quotes' %}">Browse</a></li>
+                    <li><a href="{% url 'top_quotes' %}">Top</a></li>
+                    <li><a href="{% url 'bottom_quotes' %}">Bottom</a></li>
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <li><a href="{% url 'unapproved_quotes' %}">Unapproved Quotes</a></li>
+                    <li><a href="{% url 'new_announcement' %}">New Announcement</a></li>
+                    {% endif %}
+                </ul>
+
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="{% url 'new_quote' %}">New Quote</a></li>
+                    <li><a href="{% url 'all_quotes' %}">Browse</a></li>
+                    <li><a href="{% url 'top_quotes' %}">Top</a></li>
+                    <li><a href="{% url 'bottom_quotes' %}">Bottom</a></li>
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <li><a href="{% url 'unapproved_quotes' %}">Unapproved Quotes</a></li>
+                    <li><a href="{% url 'new_announcement' %}">New Announcement</a></li>
+                    {% endif %}
+                </ul>
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+
+        <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+        </main>
+
+        <footer class="page-footer orange">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h5 class="white-text">TJ Bash 2.0</h5>
+                        <p class="grey-text text-lighten-4">tjbash.com does not have any affiliation with the Thomas Jefferson High School for Science and Technology. Quotes on tjbash.com do not necessarily reflect the views of the authors, administrators, or moderators of this site, nor do they reflect the views of the Thomas Jefferson High School for Science and Technology.
+
+                        The name "tjbash.com" is not meant as a derogatory comment towards TJHSST or any entity - it does not refer to "bashing" and should not be taken as such. The name comes from bash.org, a similar online quote database.
+
+                        Quotes on tjbash.com have no implicit or explicit claim of validity - all quotes are unverified.</p>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; 2017 Omkar Kulkarni
+                </div>
+            </div>
+        </footer>
+
+
+        <!--  Scripts-->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+        <script src="{% static 'js/selectize.min.js' %}"></script>
+        <script src="{% static 'js/init.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                {% for message in messages %}
+                Materialize.toast("{{ message }}", 2000);
+                {% endfor %}
+            });
+        </script>
+        <script type="text/javascript">
+            $('#id_tags').selectize({
+                delimiter: ',',
+                persist: false,
+                create: function(input) {
+                    return {
+                        value: input,
+                        text: input
+                    }
+                }
+            });
+        </script>
+
+</body>
+</html>

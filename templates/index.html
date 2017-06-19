@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section">
+    <div class="row">
+        <div class="col l6 s12">
+            <p> Welcome to tjbash.com! tjbash.com is a quote repository similar to the famous QDB at tjbash.org. We feature quotes by TJHSST students, alumni, and faculty that would not belong otherwise on bash.org. Obviously, this means our screening procedures are much more lax, giving you a better chance of seeing your own humorous personal experiences posted. Of course, this does not mean that tjbash.com quotes must be TJ related or that the tjbash.com site is limited to the TJ community - submitted quotes can be about any topic and other users familiar to the TJ cause or the TJ community are welcome to read and add quotes at tjbash.com.
+
+            Depending on if you like or dislike a quote, there are links to upvote and downvote quotes.
+
+            Currently, the database contains a total of {{ num_quotes }} quote{{ num_quotes | pluralize }}. There are {{ approval_quotes }} quote{{ approval_quotes | pluralize }} awaiting moderation.
+
+            If you have any questions, comments, or concerns regarding this site or its content, please email us at comments@tjbash.com.</p>
+        </div>
+        <div class="col l6 s12">
+            {% for announcement in announcements %}
+                {% include "announcement.html" with announcement=announcement %}
+            {% empty %}
+                <h5>There are no announcements at this time</h5>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}
