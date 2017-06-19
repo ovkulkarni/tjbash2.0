@@ -7,6 +7,8 @@ from django.contrib import messages
 from .models import Announcement, Quote, Tag
 from .forms import AnnouncementForm, QuoteForm
 
+import bleach
+
 # Create your views here.
 
 def index_view(request):
@@ -18,7 +20,7 @@ def index_view(request):
     return render(request, "index.html", context)
 
 def view_all_quotes(request):
-    quotes_list = Quote.objects.filter(approved=True)
+    quotes_list = Quote.objects.filter(approved=True).order_by('-id')
     paginator = Paginator(quotes_list, 25)
     page = request.GET.get('page')
     try:
@@ -64,11 +66,12 @@ def view_bottom_quotes(request):
 
 def create_new_quote(request):
     if request.method == "POST":
-        print(request.POST)
         form = QuoteForm(request.POST)
         if form.is_valid():
             tag_names = form.cleaned_data["tags"].split(",")
             obj = form.save(commit=True)
+            obj.content = bleach.clean(obj.content.replace("\r\n", "<br>"), tags=[u"br"])
+            obj.save()
             for tag_name in tag_names:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
                 obj.tags.add(tag)
@@ -84,11 +87,12 @@ def create_new_quote(request):
 def edit_quote(request, qid):
     quote = get_object_or_404(Quote, pk=qid)
     if request.method == "POST":
-        print(request.POST)
         form = QuoteForm(request.POST, instance=quote)
         if form.is_valid():
             tag_names = form.cleaned_data["tags"].split(",")
             obj = form.save()
+            obj.content = bleach.clean(obj.content.replace("\r\n", "<br>"), tags=[u"br"])
+            obj.save()
             for tag_name in tag_names:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
                 obj.tags.add(tag)
@@ -104,7 +108,9 @@ def add_announcement(request):
     if request.method == "POST":
         form = AnnouncementForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            obj.content = bleach.clean(obj.content.replace("\r\n", "<br>"), tags=[u"br"])
+            obj.save()
             return redirect("index")
         else:
             messages.error(request, "Error adding announcement :(")
@@ -118,7 +124,9 @@ def edit_announcement(request, aid):
     if request.method == "POST":
         form = AnnouncementForm(request.POST, instance=ann)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            obj.content = bleach.clean(obj.content.replace("\r\n", "<br>"), tags=[u"br"])
+            obj.save()
             return redirect("index")
         else:
             messages.error(request, "Error adding announcement :(")
