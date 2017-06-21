@@ -7,18 +7,42 @@
     </div>
     <div class="card-action">
         <div class="row">
-            <div class="col s6 center-align">
-                <a href="#!" class="green-text upvote-link" data-id="{{ quote.id }}"><i class="material-icons">check</i></a>
-            </div>
-            <div class="col s6 center-align">
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+                {% if not quote.approved %}
+                    <div class="col s3 center-align">
+                {% else %}
+                    <div class="col s4 center-align">
+                {% endif %}
+            {% else %}
+                <div class="col s6 center-align">
+            {% endif %}
+                    <a href="#!" class="green-text upvote-link" data-id="{{ quote.id }}"><i class="material-icons">check</i></a>
+                </div>
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+                {% if not quote.approved %}
+                    <div class="col s3 center-align">
+                {% else %}
+                    <div class="col s4 center-align">
+                {% endif %}
+            {% else %}
+                <div class="col s6 center-align">
+            {% endif %}
                 <a href="#!" class="red-text downvote-link" data-id="{{ quote.id }}"><i class="material-icons">clear</i></a>
             </div>
-        </div>
-        {% if request.user.is_authenticated and request.user.is_superuser %}
-            {% if not quote.approved %}
-                <a href="{% url 'approve_quote' quote.id %}" class="green-text">Approve</a>
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+                {% if not quote.approved %}
+                <div class="col s3 center-align">
+                    <a href="{% url 'approve_quote' quote.id %}" class="green-text">Approve</a>
+                </div>
+                <div class="col s3 center-align">
+                    <a href="{% url 'delete_quote' quote.id %}" class="red-text">Delete</a>
+                </div>
+                {% else %}
+                <div class="col s4 center-align">
+                    <a href="{% url 'delete_quote' quote.id %}" class="red-text">Delete</a>
+                </div>
+                {% endif %}
             {% endif %}
-            <a href="{% url 'delete_quote' quote.id %}" class="red-text">Delete</a>
-        {% endif %}
+        </div>
     </div>
 </div>
