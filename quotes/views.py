@@ -19,9 +19,13 @@ def index_view(request):
             }
     return render(request, "index.html", context)
 
+def view_quote(request, qid):
+    quote = get_object_or_404(Quote, pk=qid)
+    return render(request, "quotes.html", {"quotes":[quote]})
+
 def view_all_quotes(request):
     quotes_list = Quote.objects.filter(approved=True).order_by('-id')
-    paginator = Paginator(quotes_list, 25)
+    paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:
         quotes = paginator.page(page)
@@ -36,7 +40,7 @@ def view_all_quotes(request):
 
 def view_top_quotes(request):
     quotes_list = Quote.objects.filter(approved=True).order_by('-votes')
-    paginator = Paginator(quotes_list, 25)
+    paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:
         quotes = paginator.page(page)
@@ -51,7 +55,7 @@ def view_top_quotes(request):
 
 def view_bottom_quotes(request):
     quotes_list = Quote.objects.filter(approved=True).order_by('votes')
-    paginator = Paginator(quotes_list, 25)
+    paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:
         quotes = paginator.page(page)
@@ -134,16 +138,20 @@ def edit_announcement(request, aid):
         form = QuoteForm(instance=ann)
     return render(request, "form.html", {"form": form, "action": reverse("edit_announcement", kwargs={"aid":aid})})
 
-def upvote_quote(request, qid):
-    quote = get_object_or_404(Quote, pk=qid)
-    quote.votes += 1
-    quote.save()
+def upvote_quote(request):
+    if request.method == "POST":
+        qid = request.POST.get("qid", -1)
+        quote = get_object_or_404(Quote, pk=qid)
+        quote.votes += 1
+        quote.save()
     return redirect("all_quotes")
 
-def downvote_quote(request, qid):
-    quote = get_object_or_404(Quote, pk=qid)
-    quote.votes -= 1
-    quote.save()
+def downvote_quote(request):
+    if request.method == "POST":
+        qid = request.POST.get("qid", -1)
+        quote = get_object_or_404(Quote, pk=qid)
+        quote.votes -= 1
+        quote.save()
     return redirect("all_quotes")
 
 @login_required
@@ -162,7 +170,7 @@ def delete_quote(request, qid):
 @login_required
 def view_unapproved_quotes(request):
     quotes_list = Quote.objects.filter(approved=False)
-    paginator = Paginator(quotes_list, 25)
+    paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:
         quotes = paginator.page(page)

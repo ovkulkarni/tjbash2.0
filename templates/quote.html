@@ -1,17 +1,17 @@
 <div class="card sticky-action">
     <div class="card-content black-text">
-        <span class="card-title">Quote #{{ quote.id }}</span>
+        <span class="card-title"><a href="{% url 'view_quote' quote.id %}" class="black-text">Quote #{{ quote.id }}</a></span>
         <p>{{ quote.content|safe }}</p>
         <p class="grey-text">Tags: {{ quote.tags.all | join:", " }}</p>
-        <p class="grey-text">Votes: {{ quote.votes }} vote{{ quote.votes|pluralize }}</p>
+        <p class="grey-text">Votes: <span id="votes_{{ quote.id }}">{{ quote.votes }}</span> vote{{ quote.votes|pluralize }}</p>
     </div>
     <div class="card-action">
         <div class="row">
-            <div class="col s12 l6 center-align">
-                <a href="{% url 'upvote_quote' quote.id %}" class="green-text"><i class="material-icons">check</i></a>
+            <div class="col s6 center-align">
+                <a href="#!" class="green-text upvote-link" data-id="{{ quote.id }}"><i class="material-icons">check</i></a>
             </div>
-            <div class="col s12 l6 center-align">
-                <a href="{% url 'downvote_quote' quote.id %}" class="red-text"><i class="material-icons">clear</i></a>
+            <div class="col s6 center-align">
+                <a href="#!" class="red-text downvote-link" data-id="{{ quote.id }}"><i class="material-icons">clear</i></a>
             </div>
         </div>
         {% if request.user.is_authenticated and request.user.is_superuser %}

@@ -10,4 +10,17 @@
     </form>
 </div>
 {% endblock %}
-
+{% block scripts %}
+<script type="text/javascript">
+    $('#id_tags').selectize({
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+</script>
+{% endblock %}

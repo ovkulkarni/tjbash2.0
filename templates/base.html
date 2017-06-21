@@ -74,6 +74,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
         <script src="{% static 'js/selectize.min.js' %}"></script>
         <script src="{% static 'js/init.js' %}"></script>
+        {% if messages|length > 0 %}
         <script type="text/javascript">
             $(document).ready(function() {
                 {% for message in messages %}
@@ -81,18 +82,8 @@
                 {% endfor %}
             });
         </script>
-        <script type="text/javascript">
-            $('#id_tags').selectize({
-                delimiter: ',',
-                persist: false,
-                create: function(input) {
-                    return {
-                        value: input,
-                        text: input
-                    }
-                }
-            });
-        </script>
+        {% endif %}
+        {% block scripts %}{% endblock %}
 
 </body>
 </html>
