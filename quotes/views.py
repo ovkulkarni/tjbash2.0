@@ -76,7 +76,7 @@ def view_bottom_quotes(request):
     return render(request, "quotes.html", context)
 
 def view_quotes_by_tag(request):
-    quotes_list = Quote.objects.filter(approved=True, tags__name=request.GET.get("tag", ""))
+    quotes_list = Quote.objects.filter(approved=True, tags__name=request.GET.get("tag", "")).order_by('-votes')
     paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:
