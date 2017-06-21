@@ -1,7 +1,7 @@
 <div class="card sticky-action">
     <div class="card-content black-text">
-        <span class="card-title"><a href="{% url 'view_quote' quote.id %}" class="black-text">Quote #{{ quote.id }}</a></span>
-        <p>{{ quote.content|safe }}</p>
+        <span class="card-title"><a href="{% url 'view_quote' quote.id %}" class="black-text"><u>Quote #{{ quote.id }}</u></a></span>
+        <p><pre>{{ quote.content|safe }}</pre></p>
         <p class="grey-text">Tags: {{ quote.tags.all | join:", " }}</p>
         <p class="grey-text">Votes: <span id="votes_{{ quote.id }}">{{ quote.votes }}</span> vote{{ quote.votes|pluralize }}</p>
     </div>
