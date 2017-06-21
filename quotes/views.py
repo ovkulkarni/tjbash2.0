@@ -157,7 +157,7 @@ def edit_announcement(request, aid):
         else:
             messages.error(request, "Error adding announcement :(")
     else:
-        form = QuoteForm(instance=ann)
+        form = AnnouncementForm(instance=ann)
     return render(request, "form.html", {"form": form, "action": reverse("edit_announcement", kwargs={"aid":aid})})
 
 def upvote_quote(request):

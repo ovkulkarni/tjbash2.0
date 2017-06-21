@@ -26,7 +26,7 @@ SECRET_KEY = 'lylkgf$qmw=&)04!yk5fyvoo3zm%00hwva_k_56n69(4$i+qd0'
 DEBUG = os.getenv("DEBUG", False) == "TRUE"
 #DEBUG = True
 
-ALLOWED_HOSTS = ["tjbash.herokuapp.com", "0.0.0.0", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["tjbash.com", "tjbash.herokuapp.com", "0.0.0.0", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -77,13 +77,14 @@ WSGI_APPLICATION = 'tjbash.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tjbash',
+	'USER': 'tjbash',
+	'PASSWORD': 'this is the db password',
+	'HOST': 'localhost',
+	'PORT': '',
     }
 }
-import dj_database_url
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
