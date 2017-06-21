@@ -1,2 +1,4 @@
 **.sqlite3
+venv/
+*/settings.py
 **.pyc

@@ -27,7 +27,7 @@ def view_quote(request, qid):
 
 def view_all_tags(request):
     tags = Tag.objects.annotate(quote_count=Count('quotes')).filter(quote_count__gte=1)
-    tags_list = [{"text": tag.name, "weight": tag.quotes.count(), "link": "{}?tag={}".format(reverse("quotes_by_tag"), urlquote(tag.name))} for tag in tags]
+    tags_list = [{"text": tag.name, "weight": tag.quotes.count(), "link": "{}?tag={}".format(reverse("quotes_by_tag"), tag.name)} for tag in tags]
     return render(request, "tags.html", {"tags": tags_list})
 
 def view_all_quotes(request):

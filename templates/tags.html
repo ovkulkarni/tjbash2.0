@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud.css" />
+<style type="text/css">
+	#tags_cloud {
+		width: 100%;
+		min-height: 350px;
+	}
+</style>
 {% endblock %}
 {% block content %}
 <div class="section">
@@ -17,10 +23,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         words = {{ tags|safe }};
-        $("#tags_cloud").jQCloud(words, {
-            width: 500,
-            height: 350
-        });
+        $("#tags_cloud").jQCloud(words);
     });
 </script>
 {% endblock %}
