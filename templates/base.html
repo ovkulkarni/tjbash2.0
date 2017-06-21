@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css" media="screen,projection">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.css" />
         <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+        {% block css %}{% endblock %}
     </head>
     <body>
         <nav class="purple darken-2" role="navigation">
@@ -20,6 +21,7 @@
                     <li><a href="{% url 'all_quotes' %}">Browse</a></li>
                     <li><a href="{% url 'top_quotes' %}">Top</a></li>
                     <li><a href="{% url 'bottom_quotes' %}">Bottom</a></li>
+                    <li><a href="{% url 'view_all_tags' %}">Tags</a></li>
                     {% if request.user.is_authenticated and request.user.is_superuser %}
                     <li><a href="{% url 'unapproved_quotes' %}">Unapproved Quotes</a></li>
                     <li><a href="{% url 'new_announcement' %}">New Announcement</a></li>
@@ -31,6 +33,7 @@
                     <li><a href="{% url 'all_quotes' %}">Browse</a></li>
                     <li><a href="{% url 'top_quotes' %}">Top</a></li>
                     <li><a href="{% url 'bottom_quotes' %}">Bottom</a></li>
+                    <li><a href="{% url 'view_all_tags' %}">Tags</a></li>
                     {% if request.user.is_authenticated and request.user.is_superuser %}
                     <li><a href="{% url 'unapproved_quotes' %}">Unapproved Quotes</a></li>
                     <li><a href="{% url 'new_announcement' %}">New Announcement</a></li>

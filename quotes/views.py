@@ -1,8 +1,10 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.http import urlquote
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Count
 
 from .models import Announcement, Quote, Tag
 from .forms import AnnouncementForm, QuoteForm
@@ -22,6 +24,11 @@ def index_view(request):
 def view_quote(request, qid):
     quote = get_object_or_404(Quote, pk=qid)
     return render(request, "quotes.html", {"quotes":[quote]})
+
+def view_all_tags(request):
+    tags = Tag.objects.annotate(quote_count=Count('quotes')).filter(quote_count__gte=1)
+    tags_list = [{"text": tag.name, "weight": tag.quotes.count(), "link": "{}?tag={}".format(reverse("quotes_by_tag"), urlquote(tag.name))} for tag in tags]
+    return render(request, "tags.html", {"tags": tags_list})
 
 def view_all_quotes(request):
     quotes_list = Quote.objects.filter(approved=True).order_by('-id')
@@ -55,6 +62,21 @@ def view_top_quotes(request):
 
 def view_bottom_quotes(request):
     quotes_list = Quote.objects.filter(approved=True).order_by('votes')
+    paginator = Paginator(quotes_list, 10)
+    page = request.GET.get('page')
+    try:
+        quotes = paginator.page(page)
+    except PageNotAnInteger:
+        quotes = paginator.page(1)
+    except EmptyPage:
+        quotes = paginator.page(paginator.num_pages)
+    context = {
+            "quotes": quotes
+            }
+    return render(request, "quotes.html", context)
+
+def view_quotes_by_tag(request):
+    quotes_list = Quote.objects.filter(approved=True, tags__name=request.GET.get("tag", ""))
     paginator = Paginator(quotes_list, 10)
     page = request.GET.get('page')
     try:

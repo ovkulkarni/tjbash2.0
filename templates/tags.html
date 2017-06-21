@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud.css" />
+{% endblock %}
+{% block content %}
+<div class="section">
+    <div class="row">
+        <div class="col s12">
+            <div id="tags_cloud">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud-1.0.4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        words = {{ tags|safe }};
+        $("#tags_cloud").jQCloud(words, {
+            width: 500,
+            height: 350
+        });
+    });
+</script>
+{% endblock %}
