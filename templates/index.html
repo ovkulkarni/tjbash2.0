@@ -7,7 +7,7 @@
 
             Depending on if you like or dislike a quote, there are links to upvote and downvote quotes. If you think a quote should not be in the database or you have any questions, comments, or concerns, send us an email at <a href="mailto:comments@tjbash.com" target="_blank" rel="noopener noreferrer">comments@tjbash.com</a>.
 
-            Currently, the database contains a total of {{ num_quotes }} quote{{ num_quotes | pluralize }}. There are {{ approval_quotes }} quote{{ approval_quotes | pluralize }} awaiting moderation.</p>
+            Currently, the database contains a total of {{ num_quotes }} quote{{ num_quotes | pluralize }}. There {{ approval_quotes | pluralize:"is,are" }} {{ approval_quotes }} quote{{ approval_quotes | pluralize }} awaiting moderation.</p>
         </div>
         <div class="col l6 s12">
             {% for announcement in announcements %}
