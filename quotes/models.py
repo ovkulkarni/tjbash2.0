@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Announcement(models.Model):
     content = models.TextField(max_length=750)
     creation_time = models.DateTimeField(auto_now=True)
@@ -9,11 +10,13 @@ class Announcement(models.Model):
     def __str__(self):
         return self.content
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=250)
 
     def __str__(self):
         return self.name
+
 
 class Quote(models.Model):
     content = models.TextField(max_length=750)
