@@ -23,10 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lylkgf$qmw=&)04!yk5fyvoo3zm%00hwva_k_56n69(4$i+qd0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", False) == "TRUE"
-#DEBUG = True
+DEBUG = os.getenv("DEBUG", False).upper() == "TRUE"
+# DEBUG = True
 
-ALLOWED_HOSTS = ["tjbash.com", "tjbash.herokuapp.com", "0.0.0.0", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["tjbash.com", "tjbash.herokuapp.com",
+                 "0.0.0.0", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -79,12 +80,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tjbash',
-	'USER': 'tjbash',
-	'PASSWORD': 'this is the db password',
-	'HOST': 'localhost',
-	'PORT': '',
+        'USER': 'tjbash',
+        'PASSWORD': 'this is the db password',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -125,5 +134,5 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-            os.path.join(BASE_DIR, "static")
-                ]
+    os.path.join(BASE_DIR, "static")
+]
