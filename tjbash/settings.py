@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lylkgf$qmw=&)04!yk5fyvoo3zm%00hwva_k_56n69(4$i+qd0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", False).upper() == "TRUE"
+DEBUG = os.getenv("DEBUG", "FALSE").upper() == "TRUE"
 # DEBUG = True
 
 ALLOWED_HOSTS = ["tjbash.com", "tjbash.herokuapp.com",
