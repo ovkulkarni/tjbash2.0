@@ -2,6 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.http import urlquote
+from django.http.response import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
@@ -164,6 +165,11 @@ def upvote_quote(request):
     if request.method == "POST":
         qid = request.POST.get("qid", -1)
         quote = get_object_or_404(Quote, pk=qid)
+        if qid in request.session.get("upvoted", []):
+            return HttpResponse("already upvoted", content_type="text/plain")
+        already_upvoted = request.session.get("upvoted", [])
+        already_upvoted.append(qid)
+        request.session['upvoted'] = already_upvoted
         quote.votes += 1
         quote.save()
     return redirect("all_quotes")
@@ -172,6 +178,11 @@ def downvote_quote(request):
     if request.method == "POST":
         qid = request.POST.get("qid", -1)
         quote = get_object_or_404(Quote, pk=qid)
+        if qid in request.session.get("downvoted", []):
+            return HttpResponse("already downvoted", content_type="text/plain")
+        already_downvoted = request.session.get("downvoted", [])
+        already_downvoted.append(qid)
+        request.session['downvoted'] = already_downvoted
         quote.votes -= 1
         quote.save()
     return redirect("all_quotes")

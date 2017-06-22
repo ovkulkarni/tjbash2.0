@@ -43,7 +43,11 @@
         $(".upvote-link").on("click", function(e) {
             e.preventDefault();
             var id = parseInt($(this).data("id"));
-            $.post("{% url 'upvote_quote' %}", { qid: id }).done(function() {
+            $.post("{% url 'upvote_quote' %}", { qid: id }).done(function(response) {
+                if(response === "already upvoted") {
+                    Materialize.toast("You have already upvoted this quote!");
+                    return;
+                }
                 $("#votes_"+id).text(parseInt($("#votes_"+id).text())+1);
             }).fail(function() {
                 Materialize.toast("Error upvoting the quote :(");
@@ -52,7 +56,11 @@
         $(".downvote-link").on("click", function(e) {
             e.preventDefault();
             var id = parseInt($(this).data("id"));
-            $.post("{% url 'downvote_quote' %}", { qid: id }).done(function() {
+            $.post("{% url 'downvote_quote' %}", { qid: id }).done(function(response) {
+                if(response === "already downvoted") {
+                    Materialize.toast("You have already downvoted this quote!");
+                    return;
+                }
                 $("#votes_"+id).text(parseInt($("#votes_"+id).text())-1);
             }).fail(function() {
                 Materialize.toast("Error downvoting the quote :(");
