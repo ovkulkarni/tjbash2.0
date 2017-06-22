@@ -45,12 +45,12 @@
             var id = parseInt($(this).data("id"));
             $.post("{% url 'upvote_quote' %}", { qid: id }).done(function(response) {
                 if(response === "already upvoted") {
-                    Materialize.toast("You have already upvoted this quote!");
+                    Materialize.toast("You have already upvoted this quote!", 2000);
                     return;
                 }
                 $("#votes_"+id).text(parseInt($("#votes_"+id).text())+1);
             }).fail(function() {
-                Materialize.toast("Error upvoting the quote :(");
+                Materialize.toast("Error upvoting the quote :(", 2000);
             });
         });
         $(".downvote-link").on("click", function(e) {
@@ -58,12 +58,12 @@
             var id = parseInt($(this).data("id"));
             $.post("{% url 'downvote_quote' %}", { qid: id }).done(function(response) {
                 if(response === "already downvoted") {
-                    Materialize.toast("You have already downvoted this quote!");
+                    Materialize.toast("You have already downvoted this quote!", 2000);
                     return;
                 }
                 $("#votes_"+id).text(parseInt($("#votes_"+id).text())-1);
             }).fail(function() {
-                Materialize.toast("Error downvoting the quote :(");
+                Materialize.toast("Error downvoting the quote :(", 2000);
             });
         });
     });
