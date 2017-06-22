@@ -198,7 +198,7 @@ def approve_quote(request, qid):
 def delete_quote(request, qid):
     quote = get_object_or_404(Quote, pk=qid)
     quote.delete()
-    return redirect("all_quotes")
+    return redirect("unapproved_quotes")
 
 @login_required
 def view_unapproved_quotes(request):
