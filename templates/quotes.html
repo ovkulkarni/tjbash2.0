@@ -22,6 +22,18 @@
     {% empty %}
     <h5>There are no quotes at this time :(</h5>
     {% endfor %}
+    {% if quotes.paginator %}
+    <div class="row">
+        <div class="col s12 center-align">
+            <a href="{% if quotes.has_previous %}?page={{ quotes.previous_page_number }}{% else %}#!{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}" class="{% if quotes.has_previous %}black-text{% else %}grey-text{% endif %}"><u>Previous Page</u> &nbsp;</a>
+            <span class="current">
+                Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}
+            </span>
+
+            <a href="{% if quotes.has_next %}?page={{ quotes.next_page_number }}{% else %}#!{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}" class="{% if quotes.has_next %}black-text{% else %}grey-text{% endif %}">&nbsp; <u>Next Page</u></a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% csrf_token %}
 {% endblock %}
