@@ -16,7 +16,7 @@ import bleach
 
 def index_view(request):
     context = {
-        "announcements": Announcement.objects.all()[:5],
+        "announcements": Announcement.objects.all().order_by('-creation_time')[:5],
         "num_quotes": Quote.objects.filter(approved=True).count(),
         "approval_quotes": Quote.objects.filter(approved=False).count(),
     }
