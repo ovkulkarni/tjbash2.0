@@ -107,8 +107,8 @@ def create_new_quote(request):
             obj.content = bleach.clean(obj.content.replace("\r\n", "<br>"), tags=[u"br"])
             obj.save()
             for tag_name in tag_names:
-                if len(tag_name.lower().trim()) > 0:
-                    tag, created = Tag.objects.get_or_create(name=tag_name.lower().trim())
+                if len(tag_name.lower().strip()) > 0:
+                    tag, created = Tag.objects.get_or_create(name=tag_name.lower().strip())
                     obj.tags.add(tag)
             messages.success(request, "Quote submitted for approval!")
             return redirect("all_quotes")
