@@ -16,7 +16,7 @@
             {% else %}
                 <div class="col s6 center-align">
             {% endif %}
-                    <a href="#!" class="green-text upvote-link" data-id="{{ quote.id }}"><i class="material-icons">check</i></a>
+                    <a href="#!" class="waves-effect waves-green btn-flat upvote-link green-text" data-id="{{ quote.id }}"><i class="material-icons left">check</i> Upvote</a>
                 </div>
             {% if request.user.is_authenticated and request.user.is_superuser %}
                 {% if not quote.approved %}
@@ -27,19 +27,19 @@
             {% else %}
                 <div class="col s6 center-align">
             {% endif %}
-                <a href="#!" class="red-text downvote-link" data-id="{{ quote.id }}"><i class="material-icons">clear</i></a>
+                <a href="#!" class="waves-effect waves-red btn-flat downvote-link red-text" data-id="{{ quote.id }}"><i class="material-icons left">clear</i> Downvote</a>
             </div>
             {% if request.user.is_authenticated and request.user.is_superuser %}
                 {% if not quote.approved %}
                 <div class="col s3 center-align">
-                    <a href="{% url 'approve_quote' quote.id %}" class="green-text">Approve</a>
+                    <a href="{% url 'approve_quote' quote.id %}" class="waves-effect waves-green btn-flat black-text">Approve</a>
                 </div>
                 <div class="col s3 center-align">
-                    <a href="{% url 'delete_quote' quote.id %}" class="red-text">Delete</a>
+                    <a href="#!" class="waves-effect waves-red btn-flat black-text delete-link" data-id="{{ quote.id }}">Delete</a>
                 </div>
                 {% else %}
                 <div class="col s4 center-align">
-                    <a href="{% url 'delete_quote' quote.id %}" class="red-text">Delete</a>
+                    <a href="#!" class="waves-effect waves-red btn-flat black-text delete-link" data-id="{{ quote.id }}">Delete</a>
                 </div>
                 {% endif %}
             {% endif %}

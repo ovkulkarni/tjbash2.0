@@ -14,7 +14,7 @@
     </div>
     {% endif %}
     {% for quote in quotes %}
-    <div class="row">
+    <div class="row" id="quote-{{ quote.id }}">
         <div class="col s12">
             {% include "quote.html" with quote=quote %}
         </div>
@@ -76,6 +76,16 @@
                 $("#votes_"+id).text(parseInt($("#votes_"+id).text())-1);
             }).fail(function() {
                 Materialize.toast("Error downvoting the quote :(", 2000);
+            });
+        });
+        $(".delete-link").on("click", function(e) {
+            e.preventDefault();
+            var id = parseInt($(this).data("id"));
+            $.post("{% url 'delete_quote' %}", {"qid":id}).done(function(response) {
+                $("#quote-"+id).remove();
+                Materialize.toast("Deleted quote!", 2000);
+            }).fail(function() {
+                Materialize.toast("Error deleting quote :(");
             });
         });
     });

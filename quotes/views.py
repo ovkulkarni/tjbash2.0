@@ -210,9 +210,10 @@ def approve_quote(request, qid):
 
 
 @login_required
-def delete_quote(request, qid):
-    quote = get_object_or_404(Quote, pk=qid)
-    quote.delete()
+def delete_quote(request):
+    if request.method == "POST":
+        quote = get_object_or_404(Quote, pk=request.POST.get("qid", -1))
+        quote.delete()
     return redirect("unapproved_quotes")
 
 
