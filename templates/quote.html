@@ -2,11 +2,13 @@
     <div class="card-content black-text">
         <span class="card-title"><a href="{% url 'view_quote' quote.id %}" class="black-text"><u>Quote #{{ quote.id }}</u></a></span>
         <p>{{ quote.content|safe }}</p>
+        {% if quote.tags.count > 0 %}
         <p class="grey-text">Tags:
             {% for tag in quote.tags.all %}
             <a href="/quotes/tag/?tag={{ tag }}">{{ tag }}</a>{% if not forloop.last %},{% endif %}
             {% endfor %}
         </p>
+        {% endif %}
         <p class="grey-text">Votes: <span id="votes_{{ quote.id }}">{{ quote.votes }}</span> vote{{ quote.votes|pluralize }}</p>
     </div>
     <div class="card-action">
