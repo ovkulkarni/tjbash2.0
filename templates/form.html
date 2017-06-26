@@ -13,7 +13,14 @@
 {% block scripts %}
 <script type="text/javascript">
     $('#id_tags').selectize({
+        options: [
+            {% for tag in tags %}{
+                'value': '{{ tag.name }}',
+                'text': '{{tag.name}}'
+            }{% if not forloop.last %}, {% endif %}{% endfor %}
+        ],
         delimiter: ',',
+        maxItems: null,
         persist: false,
         create: function(input) {
             return {

@@ -116,7 +116,8 @@ def create_new_quote(request):
             messages.error(request, "Error adding quote :(")
     else:
         form = QuoteForm()
-    return render(request, "form.html", {"form": form, "action": reverse("new_quote")})
+    tag_list = Tag.objects.filter(quotes__approved=True)
+    return render(request, "form.html", {"form": form, "action": reverse("new_quote"), "tags": tag_list})
 
 
 @login_required
