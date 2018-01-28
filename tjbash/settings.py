@@ -72,6 +72,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tjbash.wsgi.application'
 
+try:
+    from .secret import *
+except ImportError:
+    pass
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -81,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tjbash',
         'USER': 'tjbash',
-        'PASSWORD': 'this is the db password',
+        'PASSWORD': DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',
     }

@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.http.response import HttpResponse
@@ -6,10 +7,42 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
 
+
 from .models import Announcement, Quote, Tag
 from .forms import AnnouncementForm, QuoteForm
 
 import bleach
+import json
+import re
+import requests
+from requests_oauthlib import OAuth1
+
+
+def notify_twitter(status):
+    url = 'https://api.twitter.com/1.1/statuses/update.json'
+
+    auth = OAuth1(settings.TWITTER_CONSUMER_KEY, settings.TWITTER_CONSUMER_SECRET, settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_SECRET)
+
+    data = {"status": status}
+
+    req = requests.post(url, data=data, auth=auth)
+
+    return req.text
+
+def post_to_twitter(request, quote):
+    url = request.build_absolute_uri(reverse('view_quote', args=[quote.id]))
+    content = re.sub('<[^>]*>', '', quote.content)
+    content = content.replace("&nbsp;", " ")
+    content_len = 130 - len(url)
+    text = "{}{} - {}".format(content[:content_len],"..." if len(content) > content_len else "", url)
+    resp = notify_twitter(text)
+    respobj = json.loads(resp)
+
+    if respobj and "id" in respobj:
+        messages.success(request, "Posted tweet: {}".format(text))
+        messages.success(request, "https://twitter.com/tjbash_qdb/status/{}".format(respobj["id"]))
+    else:
+        messages.error(request, resp)
 
 # Create your views here.
 
@@ -207,6 +240,7 @@ def approve_quote(request, qid):
     quote = get_object_or_404(Quote, pk=qid)
     quote.approved = True
     quote.save()
+    post_to_twitter(request, quote)
     return redirect("unapproved_quotes")
 
 
