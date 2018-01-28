@@ -31,8 +31,9 @@ def notify_twitter(status):
 
 def post_to_twitter(request, quote):
     url = request.build_absolute_uri(reverse('view_quote', args=[quote.id]))
+    content = quote.content
     content = content.replace("<br>", "\n")
-    content = re.sub('<[^>]*>', '', quote.content)
+    content = re.sub('<[^>]*>', '', content)
     content = content.replace("&nbsp;", " ")
     content_len = 130 - len(url)
     text = "{}{} - {}".format(content[:content_len],"..." if len(content) > content_len else "", url)
