@@ -6,7 +6,7 @@ Django==2.0
 gunicorn==19.7.1
 html5lib==1.0.1
 idna==2.6
-markdown2==2.3.5
+markdown2==2.4.0
 oauthlib==2.0.6
 psycopg2==2.7.3.2
 pytz==2017.3
